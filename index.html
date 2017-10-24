@@ -4,44 +4,43 @@
 	<meta charset="utf-8" />
 	<title>three.js学习测试</title>
 	<link rel="stylesheet" type="text/css" href="css/tools.css">
+	<style type="text/css">
+		.left-menu{width: 200px;height: 100%;background-color: #eeeeee;border-right: 1px solid #96B3CE;position: fixed;top: 0px;left: 0px;}
+		.left-menu > a{width: 100%;display: block;margin-top: 5px;margin-bottom: 5px;text-align: center;text-decoration: none;color: black;padding: 5px 0px;}
+		.left-menu > a:first-child{margin-top: 40px;}
+		.left-menu > a:hover,.left-menu > a:active,.left-menu > a:focus{background-color: #96B3CE;color: white;}
+		.a-active{background-color: #96B3CE;color: white!important;}
+		.a-normal{background-color: transparent;color: black;}
+
+		.right-iframe{width: calc(100% - 200px);height: 100%;position: fixed;top: 0px;left: 200px;}
+		.right-iframe > iframe{width: 100%;height: 100%;border: none;}
+	</style>
 </head>
 <body>
-
+	<div class="left-menu">
+		<a class="a-active titem" data-url="html/cube.html" href="javascript:void(0);">旋转的cube</a>
+		<a class="a-normal titem" data-url="html/page2.html" href="javascript:void(0);">页面2</a>
+		<a class="a-normal titem" data-url="html/page2.html" href="javascript:void(0);">页面3</a>
+		<a class="a-normal titem" data-url="html/page2.html" href="javascript:void(0);">页面4</a>
+		<a class="a-normal titem" data-url="html/page2.html" href="javascript:void(0);">页面5</a>
+	</div>
+	<div class="right-iframe">
+		<iframe id="iframe" src="html/cube.html"></iframe>
+	</div>
 </body>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript">
 
-	function cube(){
-		var scene = new THREE.Scene();
-		var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-		var renderer = new THREE.WebGLRenderer();
-
-		// 旋转的正方体
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		document.body.appendChild(renderer.domElement);
-
-		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-		var cube = new THREE.Mesh(geometry, material);
-		scene.add(cube);
-
-		camera.position.z = 5;
-
-		var render = function(){
-			requestAnimationFrame(render);
-
-			cube.rotation.x += 0.1;
-			cube.rotation.y += 0.1;
-
-			renderer.render(scene, camera);
-		};
-		render();
-	}
-
 	$(function(){
-		// 旋转的正方体
-		cube();
+		$(".titem").click(function(){
+			if(!$(this).hasClass("a-active")){
+				var url = $(this).data("url");
+				$("#iframe").attr("src",url);
+				$(this).siblings().removeClass("a-active").addClass("a-normal");
+				$(this).removeClass("a-normal").addClass("a-active");
+			}
+		});
 	});
 </script>
 </html>
